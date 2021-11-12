@@ -1,0 +1,12 @@
+<div th:fragment="scripts">
+    <script th:src="@{js/jquery.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script th:src="@{js/clean-blog.js}"></script>
+    <script>
+        $(document).ready(function () {
+            setTimeout(function () {
+                $(".alert").alert('close');
+            }, 5000);
+        });
+    </script>
+</div>

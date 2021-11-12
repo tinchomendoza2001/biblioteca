@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html  lang="es" xmlns:th="http://www.thymeleaf.org">
+    <title>Libro</title>
+    <head th:replace="fragments/head :: head"></head>
+    <body>
+        <nav th:replace="fragments/navbar :: nav_bar"></nav>
+        <header class="masthead" style="background-image:url('img/home-bg.jpg');">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-lg-8 mx-auto">
+                        <div class="site-heading">
+                            <div th:replace="fragments/mensajes :: mensajes"></div>
+                            <div class="text-left bg-light">
+                                <button class="btn btn-success btn-sm border rounded shadow-none" type="button" data-id="0" data-isbn=""  data-titulo="" data-anio="" data-alta="true" data-ejemplares="" data-autorId="" data-editorialId=""  data-toggle="modal" data-target="#modal-libro">Agregar Libro +</button>
+                                <div class="text-center"><label class="text-uppercase text-body">Lista de Libros</label></div>
+                            </div>
+                            <div class="table-responsive table-bordered bg-light border rounded shadow-lg">
+                                <table class="table table-striped table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>ISBN</th>
+                                            <th>Titulo</th>
+                                            <th>Año</th>
+                                            <th>Ejemplares</th>
+                                            <th>Autor</th>
+                                            <th>Editorial</th>
+                                            <th>Estado</th>
+                                            <th>Editar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <th:block th:each="libro: ${libros}">
+                                        <tr>
+                                            <td th:text="${libro.isbn}"></td>
+                                            <td th:text="${libro.titulo}"></td>
+                                            <td th:text="${libro.anio}"></td>
+                                            <td th:text="${libro.ejemplares}"></td>
+                                            <td th:text="${libro.autor.nombre}"></td>
+                                            <td th:text="${libro.editorial.nombre}"></td>
+                                            <td>
+                                                <div th:if="${libro.alta}">
+                                                    <span class="text-success">Alta</span>
+                                                </div>
+                                                <div th:unless="${libro.alta}">
+                                                    <span class="text-danger">Baja</span>
+                                                </div>
+                                            </td>                                            
+                                            <td><button class="btn btn-warning" type="button" th:attr="data-id=${libro.id},data-isbn=${libro.isbn},data-titulo=${libro.titulo},data-anio=${libro.anio},data-alta=${libro.alta},data-autorId=${libro.autor.id},data-ejemplares=${libro.ejemplares},data-editorialId=${libro.editorial.id}" data-toggle="modal" data-target="#modal-libro">Editar</button></td>
+                                        </tr>
+                                    </th:block>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal fade" role="dialog" tabindex="-1" id="modal-libro">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header text-left">
+                                            <h4 class="modal-title text-body"><span id="tituloModal"></span></h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:action="@{/libro}" method="POST">
+                                                <div class="form-row text-right">
+                                                    <div class="col"><label class="col-form-label text-dark">ISBN</label></div>
+                                                    <div class="col"><input type="text" class="form-control"  id="isbn" name="isbn" autocomplete="off" required/></div>
+                                                    <div class="text-center" style="width:27.422px;"></div>
+                                                </div>
+                                                <div class="form-row text-right">
+                                                    <div class="col"><label class="col-form-label text-dark">Titulo</label></div>
+                                                    <div class="col"><input type="text" class="form-control"  id="titulo" name="titulo" autocomplete="off" required/></div>
+                                                    <div class="text-center" style="width:27.422px;"></div>
+                                                </div>
+                                                <div class="form-row text-right">
+                                                    <div class="col"><label class="col-form-label text-dark">Año</label></div>
+                                                    <div class="col"><input type="number" placeholder="YYYY" min="0000" max="3000" class="form-control"  id="anio" name="anio" autocomplete="off"  required/></div>
+                                                    <div class="text-center" style="width:27.422px;"></div>
+                                                </div>
+                                                <div class="form-row text-right">
+                                                    <div class="col"><label class="col-form-label text-dark">Ejemplares</label></div>
+                                                    <div class="col"><input type="number" min="1" max="99999" class="form-control"  id="ejemplares" name="ejemplares" autocomplete="off" required/></div>
+                                                    <div class="text-center" style="width:27.422px;"></div>
+                                                </div>
+                                                <div class="form-row text-right">
+                                                    <div class="col"><label class="col-form-label text-dark">Autor</label></div>
+                                                    <div class="col"><select class="form-control"  id="autorId" name="autorId" required>
+                                                            <option th:each="autor : ${autores}" th:value="${autor.id}" th:text="${autor.nombre}"></option>
+                                                        </select>                                                    
+                                                    </div>
+                                                    <div class="text-left">
+                                                        <button class="btn-success btn-sm" type="button" title="Agregar" onclick="redireccion('autor')">+</button>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row text-right">
+                                                    <div class="col"><label class="col-form-label text-dark">Editorial</label></div>
+                                                    <div class="col"><select class="form-control"  id="editorialId" name="editorialId" required>
+                                                            <option th:each="editorial : ${editoriales}" th:value="${editorial.id}" th:text="${editorial.nombre}"></option>
+                                                        </select></div>
+                                                    <div class="text-left">
+                                                        <button class="btn-success btn-sm" type="button" title="Agregar" onclick="redireccion('editorial')">+</button>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row text-right">
+                                                    <div class="col"><label class="col-form-label text-dark">Estado</label></div>
+                                                    <div class="col">
+                                                        <select class="form-control"  id="alta" name="alta" required>
+                                                            <option value="true" >Alta</option>
+                                                            <option value="false" >Baja</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="text-center" style="width:27.422px;"></div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="hidden" id="id" name="id" value="0" required>
+                                                    <button class="btn btn-light" type="button" data-dismiss="modal">Salir</button>
+                                                    <button class="btn btn-primary" type="submit"><span id="botonModal"></span></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </header>
+        <hr>
+        <footer th:replace="fragments/footer :: footer"></footer>
+        <div th:replace="fragments/scripts :: scripts"></div>
+       <script>
+            $('#modal-libro').on('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var id = button.getAttribute('data-id');
+                var isbn = button.getAttribute('data-isbn');
+                var titulo = button.getAttribute('data-titulo');
+                var anio = button.getAttribute('data-anio');
+                var ejemplares = button.getAttribute('data-ejemplares');                
+                var autorId = button.getAttribute('data-autorId');
+                var editorialId = button.getAttribute('data-editorialId');
+                var alta = button.getAttribute('data-alta');
+                $(".alert").alert('close');
+                $('#alta').val(alta);
+                if (id > 0) {
+                    $('#tituloModal').html('Editar Libro');
+                    $('#botonModal').html('Editar');
+                    $('#id').val(id);
+                    $('#isbn').val(isbn);
+                    $('#titulo').val(titulo);
+                    $('#anio').val(anio);
+                    $('#ejemplares').val(ejemplares);
+                    $('#autorId').val(autorId);
+                    $('#editorialId').val(editorialId);
+                } else {
+                    $('#tituloModal').html('Agregar Libro');
+                    $('#botonModal').html('Agregar');
+                    $('#id').val(0);
+                    $('#isbn').val("");
+                    $('#titulo').val("");
+                    $('#anio').val("");
+                    $('#ejemplares').val("");
+                    $('#autorId').val("");
+                    $('#editorialId').val("");
+                }
+            });
+            function redireccion(url){
+                window.location.href = url;
+            }
+        </script>
+    </body>
+</html>

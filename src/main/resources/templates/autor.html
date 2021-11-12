@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <title>Autor</title>
+    <head th:replace="fragments/head :: head"></head>
+    <body>
+        <nav th:replace="fragments/navbar :: nav_bar"></nav>
+        <header class="masthead" style="background-image:url('img/about-bg.jpg');">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-lg-8 mx-auto">
+                        <div class="site-heading">
+                            <div th:replace="fragments/mensajes :: mensajes"></div>
+                            <div class="text-left bg-light">
+                                <button class="btn btn-success btn-sm border rounded shadow-none" data-id="0" data-nombre="" data-alta="true" type="button" data-toggle="modal" data-target="#modal-autor">Agregar autor +</button>
+                                <div class="text-center"><label class="text-uppercase text-body">Lista de autores</label></div>
+                            </div>
+                            <div class="table-responsive table-bordered bg-light border rounded shadow-lg">
+                                <table class="table table-striped table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Estado</th>
+                                            <th>Editar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <th:block th:each="autor: ${autores}">
+                                        <tr>
+                                            <td th:text="${autor.nombre}"></td>
+                                            <td>
+                                                <div th:if="${autor.alta}">
+                                                    <span class="text-success">Alta</span>
+                                                </div>
+                                                <div th:unless="${autor.alta}">
+                                                    <span class="text-danger">Baja</span>
+                                                </div>
+                                            </td>
+                                            <td><button class="btn btn-warning" type="button" th:attr="data-id=${autor.id},data-nombre=${autor.nombre},data-alta=${autor.alta}" data-toggle="modal" data-target="#modal-autor">Editar</button></td>
+                                        </tr>
+                                    </th:block>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal fade" role="dialog" tabindex="-1" id="modal-autor">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header text-left">
+                                            <h4 class="modal-title text-body"><span id="tituloModal"></span></h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                        </div>
+                                        <div class="modal-body">                                            
+                                            <form th:action="@{/autor}" method="POST">
+                                                <div class="form-row">
+                                                    <div class="col"><label class="col-form-label text-body">Nombre</label></div>
+                                                    <div class="col"><input class="form-control" type="text" id="nombre" name="nombre" autocomplete="off" th:value="${nombre}" required></div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="col"><label class="col-form-label text-body">Estado</label></div>
+                                                    <div class="col">
+                                                        <select class="form-control"  id="alta" name="alta" required>
+                                                            <option value="true" >Alta</option>
+                                                            <option value="false" >Baja</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input type="hidden" id="id" name="id" value="0" required>
+                                                    <button class="btn btn-light" type="button" data-dismiss="modal">Salir</button>
+                                                    <button class="btn btn-primary" type="submit"><span id="botonModal"></span></button>
+                                                </div>
+                                            </form>                                            
+                                        </div>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <hr>
+        <footer th:replace="fragments/footer :: footer"></footer>
+        <div th:replace="fragments/scripts :: scripts"></div>
+        <script>
+            $('#modal-autor').on('show.bs.modal', function (event) {
+                var button = event.relatedTarget;
+                var id = button.getAttribute('data-id');
+                var nombre = button.getAttribute('data-nombre');
+                var alta = button.getAttribute('data-alta');
+                $(".alert").alert('close');
+                $('#alta').val(alta);
+                if (id > 0) {
+                    $('#tituloModal').html('Editar Autor');
+                    $('#botonModal').html('Editar');
+                    $('#id').val(id);
+                    $('#nombre').val(nombre);
+                } else {
+                    $('#tituloModal').html('Agregar Autor');
+                    $('#botonModal').html('Agregar');
+                    $('#id').val(0);
+                    $('#nombre').val("");
+                }
+            });
+        </script>
+    </body>
+</html>
