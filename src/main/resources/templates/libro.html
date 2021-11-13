@@ -132,23 +132,15 @@
         <script>
             $('#modal-libro').on('show.bs.modal', function (event) {
                 var button = event.relatedTarget;
-                var id = button.getAttribute('data-id');
-                var isbn = button.getAttribute('data-isbn');
-                var titulo = button.getAttribute('data-titulo');
-                var anio = button.getAttribute('data-anio');
-                var ejemplares = button.getAttribute('data-ejemplares');
-                var autorId = button.getAttribute('data-autorId');
-                var editorialId = button.getAttribute('data-editorialId');
-                var alta = button.getAttribute('data-alta');
                 $(".alert").alert('close');
-                $('#alta').val(alta);
-                $('#id').val(id);
-                $('#isbn').val(isbn);
-                $('#titulo').val(titulo);
-                $('#anio').val(anio);
-                $('#ejemplares').val(ejemplares);
-                $('#autorId').val(autorId);
-                $('#editorialId').val(editorialId);
+                $('#alta').val(button.getAttribute('data-alta'));
+                $('#id').val(button.getAttribute('data-id'));
+                $('#isbn').val(button.getAttribute('data-isbn'));
+                $('#titulo').val(button.getAttribute('data-titulo'));
+                $('#anio').val(button.getAttribute('data-anio'));
+                $('#ejemplares').val(button.getAttribute('data-ejemplares'));
+                $('#autorId').val(button.getAttribute('data-autorId'));
+                $('#editorialId').val(button.getAttribute('data-editorialId'));
                 if (id > 0) {
                     $('#tituloModal').html('Editar Libro');
                     $('#botonModal').html('Editar');

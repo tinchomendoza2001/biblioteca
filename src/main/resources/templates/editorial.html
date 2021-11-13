@@ -87,13 +87,10 @@
         <script>
             $('#modal-editorial').on('show.bs.modal', function (event) {
                 var button = event.relatedTarget;
-                var id = button.getAttribute('data-id');
-                var nombre = button.getAttribute('data-nombre');
-                var alta = button.getAttribute('data-alta');
                 $(".alert").alert('close');
-                $('#alta').val(alta);
-                $('#id').val(id);
-                    $('#nombre').val(nombre);
+                $('#alta').val(button.getAttribute('data-alta'));
+                $('#id').val(button.getAttribute('data-id'));
+                $('#nombre').val(button.getAttribute('data-nombre'));
                 if (id > 0) {
                     $('#tituloModal').html('Editar Editorial');
                     $('#botonModal').html('Editar');                    
