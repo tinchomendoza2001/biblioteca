@@ -24,7 +24,7 @@ public class LibroControlador {
     @Autowired
     private LibroServicios libroServicio;
     
-    @GetMapping("libro")
+    @GetMapping("/libro")
     public String libros(ModelMap modelo) {
         modelo.put("autores", autorServicio.lista());
         modelo.put("editoriales", editorialServicio.lista());
@@ -33,7 +33,7 @@ public class LibroControlador {
     }
     
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PostMapping("libro")
+    @PostMapping("/libro")
     public String guardarLibro(ModelMap modelo, @RequestParam long id, @RequestParam String isbn, @RequestParam String titulo, @RequestParam int anio, @RequestParam String alta, @RequestParam int ejemplares, @RequestParam long autorId, @RequestParam long editorialId) {
         if (libroServicio.buscarPorTituloBoolean(titulo) && libroServicio.buscarPorIsbnBoolean(isbn) && id == 0) {//si esta el nombre y se quiere agregar
             modelo.put("AVISO", "Ya existe el Libro con el mismo Titulo e ISBN");
