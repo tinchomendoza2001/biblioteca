@@ -90,16 +90,14 @@
                 var alta = button.getAttribute('data-alta');
                 $(".alert").alert('close');
                 $('#alta').val(alta);
+                $('#id').val(id);
+                $('#nombre').val(nombre);
                 if (id > 0) {
                     $('#tituloModal').html('Editar Autor');
                     $('#botonModal').html('Editar');
-                    $('#id').val(id);
-                    $('#nombre').val(nombre);
                 } else {
                     $('#tituloModal').html('Agregar Autor');
                     $('#botonModal').html('Agregar');
-                    $('#id').val(0);
-                    $('#nombre').val("");
                 }
             });
         </script>
