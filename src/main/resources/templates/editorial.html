@@ -91,7 +91,7 @@
                 $('#alta').val(button.getAttribute('data-alta'));
                 $('#id').val(button.getAttribute('data-id'));
                 $('#nombre').val(button.getAttribute('data-nombre'));
-                if (id > 0) {
+                if ( $('#id').val() > 0) {
                     $('#tituloModal').html('Editar Editorial');
                     $('#botonModal').html('Editar');                    
                 } else {
@@ -101,5 +101,4 @@
             });
         </script>
     </body>
-
 </html>
