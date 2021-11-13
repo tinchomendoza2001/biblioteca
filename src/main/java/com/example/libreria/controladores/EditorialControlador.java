@@ -39,6 +39,8 @@ public class EditorialControlador {
             } catch (ErrorServicio e) {
                 modelo.put("ERROR", e.getMessage());
                 modelo.put("nombre", nombre);//reenvio variables a la vista
+                modelo.put("alta", alta);
+                modelo.put("id", id);
             }
         }
         modelo.put("editoriales", editorialServicio.lista());
