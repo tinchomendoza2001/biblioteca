@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
-//@RequestMapping("/")
+@RequestMapping("/")
 public class AutorControlador {
 
     @Autowired
@@ -54,7 +54,7 @@ public class AutorControlador {
             }
         }
         modelo.put("autores", autorServicio.lista());
-        return "redirect:/autor";
+        return "redirect:/autor";//para que no aparezca en la recarga de la pagina de nuevo el post
     }
     /*
     @PostMapping("/registro")
