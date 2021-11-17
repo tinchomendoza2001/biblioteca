@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
-@RequestMapping("/")
+//@RequestMapping("/")
 public class AutorControlador {
 
     @Autowired
@@ -30,7 +30,7 @@ public class AutorControlador {
         return "autor";
     }
     
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    //@ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/autor")
     public String guardarAutor(ModelMap modelo, @RequestParam long id, @RequestParam String nombre, @RequestParam String alta) {
         if (autorServicio.buscarPorNombreBoolean(nombre) && id == 0) {//si esta el nombre y se quiere agregar
