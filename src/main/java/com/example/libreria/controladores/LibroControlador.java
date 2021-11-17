@@ -55,6 +55,6 @@ public class LibroControlador {
         modelo.put("autores", autorServicio.lista());
         modelo.put("editoriales", editorialServicio.lista());
         modelo.put("libros", libroServicio.lista());
-        return "redirect:/libro";
+        return "/libro";
     }
 }

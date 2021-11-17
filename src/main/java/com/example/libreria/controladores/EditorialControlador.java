@@ -46,6 +46,6 @@ public class EditorialControlador {
             }
         }
         modelo.put("editoriales", editorialServicio.lista());
-        return "redirect:/editorial";
+        return "/editorial";
     }
 }
