@@ -57,6 +57,7 @@ public class AutorControlador {
             }
         }
         modelo.put("autores", autorServicio.lista());
+        System.out.println(request.getSession().toString());
         return "redirect:/autor";//para que no aparezca en la recarga de la pagina de nuevo el post
     }
     /*
