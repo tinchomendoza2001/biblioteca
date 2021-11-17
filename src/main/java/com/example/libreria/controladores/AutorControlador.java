@@ -54,7 +54,7 @@ public class AutorControlador {
             }
         }
         modelo.put("autores", autorServicio.lista());
-        return "autor";
+        return "redirect:/autor";
     }
     /*
     @PostMapping("/registro")
