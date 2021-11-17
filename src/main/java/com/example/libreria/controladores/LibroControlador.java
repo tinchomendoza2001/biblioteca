@@ -5,14 +5,12 @@ import com.example.libreria.servicios.AutorServicios;
 import com.example.libreria.servicios.EditorialServicios;
 import com.example.libreria.servicios.LibroServicios;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 @RequestMapping("/")
@@ -34,7 +32,6 @@ public class LibroControlador {
         return "libro";
     }
     
-    @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/libro")
     public String guardarLibro(ModelMap modelo, @RequestParam long id, @RequestParam String isbn, @RequestParam String titulo, @RequestParam int anio, @RequestParam String alta, @RequestParam int ejemplares, @RequestParam long autorId, @RequestParam long editorialId) {
         if (libroServicio.buscarPorTituloBoolean(titulo) && libroServicio.buscarPorIsbnBoolean(isbn) && id == 0) {//si esta el nombre y se quiere agregar
@@ -58,6 +55,6 @@ public class LibroControlador {
         modelo.put("autores", autorServicio.lista());
         modelo.put("editoriales", editorialServicio.lista());
         modelo.put("libros", libroServicio.lista());
-        return "libro";
+        return "redirect:/libro";
     }
 }

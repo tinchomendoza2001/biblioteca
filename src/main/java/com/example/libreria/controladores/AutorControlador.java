@@ -8,14 +8,12 @@ package com.example.libreria.controladores;
 import com.example.libreria.excepciones.ErrorServicio;
 import com.example.libreria.servicios.AutorServicios;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 @RequestMapping("/")
@@ -30,7 +28,6 @@ public class AutorControlador {
         return "autor";
     }
     
-    //@ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/autor")
     public String guardarAutor(ModelMap modelo, @RequestParam long id, @RequestParam String nombre, @RequestParam String alta) {
         if (autorServicio.buscarPorNombreBoolean(nombre) && id == 0) {//si esta el nombre y se quiere agregar
