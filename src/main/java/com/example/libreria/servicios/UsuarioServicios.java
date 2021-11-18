@@ -1,5 +1,11 @@
 package com.example.libreria.servicios;
+
+import com.example.libreria.entidades.Usuario;
+import com.example.libreria.excepciones.ErrorServicio;
+import com.example.libreria.repositorios.UsuarioRepositorio;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 /*
 import com.example.libreria.entidades.Usuario;
 import com.example.libreria.excepciones.ErrorServicio;
@@ -18,10 +24,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-*/
+ */
 @Service
 public class UsuarioServicios {
-/* implements UserDetailsService
+
+    @Autowired
+    private UsuarioRepositorio usuarioRepositorio;
+
+    public Usuario buscarPorId(Long id) throws ErrorServicio {
+        return usuarioRepositorio.getById(id);
+    }
+
+    public void modificar(long id, String nombre, String login, String password) throws ErrorServicio {
+        Usuario usuario = usuarioRepositorio.getById(id);
+        usuario.setNombre(nombre);
+        usuario.setLogin(login);
+        usuario.setPassword(password);
+        usuarioRepositorio.save(usuario);
+    }
+    /* implements UserDetailsService
     @Autowired//llamadas al repositorio con sus metodos
     private UsuarioRepositorio usuarioRepositorio;
     
@@ -54,5 +75,6 @@ public class UsuarioServicios {
         }
         return null;
     }
-*/
+     */
+
 }
