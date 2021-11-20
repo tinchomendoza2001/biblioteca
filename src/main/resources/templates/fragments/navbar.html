@@ -2,7 +2,7 @@
     <div class="container"><a class="navbar-brand" th:href="@{index}">Principal</a><button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" th:href="@{login}" th:if="${session.usuariosession == null}" ><img th:src="@{bootstrap/icons-1.7.1/person.svg}" alt="LOGIN" width="32" height="32"></a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{login}" th:if="${session.usuariosession == null}" ><img th:src="@{img/icons8-login-64.png}" alt="LOGIN" width="32"></a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{libro}" th:if="${session.usuariosession != null}" >Libros</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{editorial}" th:if="${session.usuariosession != null}" >Editoriales</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{autor}" th:if="${session.usuariosession != null}" >Autores</a></li>
