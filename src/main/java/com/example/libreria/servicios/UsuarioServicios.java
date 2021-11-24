@@ -1,18 +1,12 @@
 package com.example.libreria.servicios;
 
+import com.example.libreria.entidades.Rol;
 import com.example.libreria.entidades.Usuario;
 import com.example.libreria.excepciones.ErrorServicio;
 import com.example.libreria.repositorios.UsuarioRepositorio;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-/*
-import com.example.libreria.entidades.Usuario;
-import com.example.libreria.excepciones.ErrorServicio;
-import com.example.libreria.repositorios.UsuarioRepositorio;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
-import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,46 +15,87 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+/*
+import java.util.ArrayList;
+import java.util.List;
  */
+
 @Service
-public class UsuarioServicios {
+public class UsuarioServicios implements UserDetailsService {
 
     @Autowired
     private UsuarioRepositorio usuarioRepositorio;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
+    private String mensaje = "No existe ningún usuario asociado con el ID %s";
+
+    @Transactional(readOnly = true)
     public Usuario buscarPorId(Long id) throws ErrorServicio {
         return usuarioRepositorio.getById(id);
     }
 
-    public void modificar(long id, String nombre, String login, String password) throws ErrorServicio {
-        Usuario usuario = usuarioRepositorio.getById(id);
-        usuario.setNombre(nombre);
-        usuario.setLogin(login);
-        usuario.setPassword(password);
-        usuarioRepositorio.save(usuario);
+    @Transactional(readOnly = true)
+    public Usuario buscarPorNombre(String nombre) throws ErrorServicio {
+        return usuarioRepositorio.buscarPorNombre(nombre);
     }
-    /* implements UserDetailsService
-    @Autowired//llamadas al repositorio con sus metodos
-    private UsuarioRepositorio usuarioRepositorio;
-    
+
+    @Transactional(readOnly = true)
+    public Usuario buscarPorLogin(String login) throws ErrorServicio {
+        return usuarioRepositorio.buscarPorLogin(login);
+    }
+
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
-    public void registrar(String nombre, String login, String password) throws ErrorServicio {
+    public void crear(String nombre, String login, String password, Rol rol) throws ErrorServicio {
         Usuario usuario = usuarioRepositorio.buscarPorLogin(login);
         if (usuario != null) {
             throw new ErrorServicio("Ya existe cuenta de usuario");
-        }
+        }        
         usuario = new Usuario();
         usuario.setNombre(nombre);
-        usuario.setLogin(login);        
-        usuario.setPassword(new BCryptPasswordEncoder().encode(password));
+        usuario.setLogin(login);
         usuario.setAlta(new Date());
-        usuario.setBaja(null);
-
+        usuario.setEstado(Boolean.TRUE);
+        usuario.setRol(rol);
+        usuario.setPassword(encoder.encode(password));
         usuarioRepositorio.save(usuario);
     }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = {Exception.class})
+    public void modificar(Long id, String nombre, String login, String password, Rol rol, Boolean alta) throws ErrorServicio {
+        Usuario usuario = usuarioRepositorio.getById(id);
+        usuario.setNombre(nombre);
+        usuario.setLogin(login);
+        usuario.setEstado(alta);
+        usuario.setRol(rol);
+        usuario.setPassword(encoder.encode(password));
+        usuarioRepositorio.save(usuario);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepositorio.buscarPorLogin(string);
+        GrantedAuthority authority = new SimpleGrantedAuthority(Long.toString(usuario.getRol().getId()));
+
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attributes.getRequest().getSession(true);
+
+        session.setAttribute("id", usuario.getId());
+        session.setAttribute("nombre", usuario.getNombre());
+        session.setAttribute("login", usuario.getLogin());
+        session.setAttribute("rol", usuario.getRol().getNombre());
+
+        return new User(usuario.getLogin(), usuario.getPassword(), Collections.singletonList(authority));
+    }
+    /* 
+    
+    implements UserDetailsService
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
