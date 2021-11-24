@@ -2,6 +2,7 @@ package com.example.libreria.controladores;
 
 import com.example.libreria.entidades.Usuario;
 import com.example.libreria.excepciones.ErrorServicio;
+import com.example.libreria.servicios.RolServicios;
 import com.example.libreria.servicios.UsuarioServicios;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class UsuarioControlador {
     @Autowired
     private UsuarioServicios usuarioServicios;
     
+    @Autowired
+    private RolServicios rolServicios;    
+    
     @GetMapping("/editar-usuario")
     public String usuarios(ModelMap modelo, @RequestParam long id){
         try{
@@ -29,11 +33,10 @@ public class UsuarioControlador {
     }
     
     @PostMapping("/actualizar-usuario")
-    public String registrar(ModelMap modelo, HttpSession session, @RequestParam long id, @RequestParam String nombre, @RequestParam String login, @RequestParam String clave) throws ErrorServicio{
+    public String registrar(ModelMap modelo, HttpSession session, @RequestParam long id, @RequestParam String nombre, @RequestParam String login, @RequestParam String clave, @RequestParam long rol_id) throws ErrorServicio{
         Usuario usuario = null;
         try{
-            usuario = usuarioServicios.buscarPorId(id);
-            usuarioServicios.modificar(id,nombre,login,clave);
+            usuarioServicios.crear(nombre, login, nombre, rolServicios.buscarPorId(rol_id));
             session.setAttribute("usuariosession",usuario);
         }catch(ErrorServicio e){
             modelo.put("error",e.getMessage());
