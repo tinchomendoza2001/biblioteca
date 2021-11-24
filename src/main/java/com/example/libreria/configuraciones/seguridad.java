@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 //@order
 public class seguridad extends WebSecurityConfigurerAdapter {
-
    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
