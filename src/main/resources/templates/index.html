@@ -19,11 +19,11 @@
             <div role="dialog" tabindex="-1" class="modal fade" id="modal-login">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
+                       <form th:action="@{/loginIn}" method="POST"> 
                         <div class="modal-header">
                             <h4 class="modal-title">Ingreso</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                         </div>
-                        <div class="modal-body">
-                            <form th:action="@{/login}" method="POST">
+                        <div class="modal-body">                            
                                 <div class="form-row">
                                     <div class="col"><label class="col-form-label">Usuario</label></div>
                                     <div class="col"><input type="text" class="form-control" id="usuario" name="usuario"/></div>
@@ -32,11 +32,12 @@
                                     <div class="col"><label class="col-form-label">Contraseña</label></div>
                                     <div class="col"><input type="password" class="form-control" id="contrasenia" name="contrasenia"/></div>
                                 </div>
-                            </form>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-light" type="submit" data-dismiss="modal">Cerrar</button>
-                            <button class="btn btn-primary" type="button">Ingresar</button></div>
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+                            <button class="btn btn-primary" type="submit">Ingresar</button>
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
