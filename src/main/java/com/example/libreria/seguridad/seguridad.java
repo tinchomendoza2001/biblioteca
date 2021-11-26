@@ -32,18 +32,18 @@ public class seguridad extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/admin/*").hasRole("1")
                     .antMatchers("/font/*","/css/*", "/js/*", "/img/*").permitAll()
-                    //.antMatchers("/**").authenticated()
+                     //.antMatchers("/**").authenticated()
                     .and().
                 formLogin()
-                    .loginPage("/index")
-                    .loginProcessingUrl("/loginIn")
-                    .usernameParameter("usuario")
-                    .passwordParameter("contrasenia")
-                    .defaultSuccessUrl("/libro")
+                    .loginPage("/index") //redireccion de logueo rechazado
+                    .loginProcessingUrl("/loginIn") //ruta a loguearce por post
+                    .usernameParameter("usuario") //name ususario del form
+                    .passwordParameter("contrasenia") //name de password del form
+                    .defaultSuccessUrl("/index") //redireccion de logueo exitoso
                     .permitAll()
                     .and().logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/login?logout")             
+                    .logoutUrl("/logout") //ruta de accion de deslogueo
+                    .logoutSuccessUrl("/index") //redireccion de deslogueo exitoso
                     .permitAll().
                 and().csrf().disable();
     }
