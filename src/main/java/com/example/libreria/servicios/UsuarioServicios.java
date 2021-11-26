@@ -25,7 +25,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import java.util.ArrayList;
 import java.util.List;
  */
-
 @Service
 public class UsuarioServicios implements UserDetailsService {
 
@@ -56,7 +55,7 @@ public class UsuarioServicios implements UserDetailsService {
         Usuario usuario = usuarioRepositorio.buscarPorLogin(login);
         if (usuario != null) {
             throw new ErrorServicio("Ya existe cuenta de usuario");
-        }        
+        }
         usuario = new Usuario();
         usuario.setNombre(nombre);
         usuario.setLogin(login);
@@ -79,18 +78,23 @@ public class UsuarioServicios implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String string) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepositorio.buscarPorLogin(string);
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        Usuario usuario;
+        try {
+            usuario = usuarioRepositorio.buscarPorLogin(login);
+        } catch (Exception e) {
+            throw new UsernameNotFoundException("sql execute error!");
+        }
         GrantedAuthority authority = new SimpleGrantedAuthority(Long.toString(usuario.getRol().getId()));
-
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         HttpSession session = attributes.getRequest().getSession(true);
-
+        session.setAttribute("usuariosession", usuario);
+        /*
         session.setAttribute("id", usuario.getId());
-        session.setAttribute("nombre", usuario.getNombre());
+        session.setAttribute("name", usuario.getNombre());
         session.setAttribute("login", usuario.getLogin());
         session.setAttribute("rol", usuario.getRol().getNombre());
-
+        */
         return new User(usuario.getLogin(), usuario.getPassword(), Collections.singletonList(authority));
     }
     /* 
