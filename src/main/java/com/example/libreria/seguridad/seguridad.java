@@ -31,8 +31,8 @@ public class seguridad extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/admin/*").hasRole("1")
-                    .antMatchers("/font/*","/css/*", "/js/*", "/img/*").permitAll()
-                     //.antMatchers("/**").authenticated()
+                    .antMatchers("/fonts/*","/css/*", "/js/*", "/img/*").permitAll()
+                    .antMatchers("/**").authenticated()
                     .and().
                 formLogin()
                     .loginPage("/index") //redireccion de logueo rechazado
