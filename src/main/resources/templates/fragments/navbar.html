@@ -3,11 +3,21 @@
         <button data-toggle="collapse" data-target="#navbarResponsive" class="navbar-toggler" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item" th:if="${session == null}"><img th:src="@{img/icons8-login-64.png}" alt="Ingreso" width="32" data-toggle="modal" data-target="#modal-login" style="cursor: pointer;" title="Ingreso"></li>
-                <li class="nav-item" th:if="${session != null}"><a class="nav-link" th:href="@{libro}">Libros</a></li>
-                <li class="nav-item" th:if="${session != null}"><a class="nav-link" th:href="@{editorial}">Editoriales</a></li>
-                <li class="nav-item" th:if="${session != null}"><a class="nav-link" th:href="@{autor}">Autores</a></li>
-                <li class="nav-item" th:if="${session != null}"><span class="badge badge-pill badge-info" th:text="${session.nombre}"></span></li>
+                <li class="nav-item" th:if="${session.usuariosession != null}"><a class="nav-link" th:href="@{libro}">Libros</a></li>
+                <li class="nav-item" th:if="${session.usuariosession != null}"><a class="nav-link" th:href="@{editorial}">Editoriales</a></li>
+                <li class="nav-item" th:if="${session.usuariosession != null}"><a class="nav-link" th:href="@{autor}">Autores</a></li>
+                <li class="nav-item" th:if="${session.usuariosession == null}"><img th:src="@{img/icons8-login-64.png}" alt="Ingreso" width="32" data-toggle="modal" data-target="#modal-login" style="cursor: pointer;" title="Ingreso"></li>
+                <!--
+                <li class="nav-item" th:if="${session.usuariosession != null}">
+                    <span class="badge badge-pill badge-info" th:text="${session.usuariosession.getNombre()}"></span>
+                </li>
+                -->
+                <li class="nav-item dropdown" th:if="${session.usuariosession != null}">
+                    <span class="badge badge-pill badge-info dropdown-toggle" th:text="${session.usuariosession.getNombre()}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" th:href="@{logout}">Desloguearse</a>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
